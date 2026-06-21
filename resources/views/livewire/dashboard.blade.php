@@ -1,0 +1,41 @@
+<div class="space-y-6">
+    @if(! auth()->user()->isAdmin())
+        <div><h1 class="text-3xl font-bold text-ink">Dashboard</h1><p class="text-sm text-slate-500">Quick access to your everyday tasks.</p></div>
+
+        <section class="card p-5 sm:p-6 lg:flex lg:items-start lg:justify-between lg:gap-6">
+            <div class="mb-4 shrink-0 lg:mb-0"><h2 class="font-bold">Quick search</h2><p class="text-xs text-slate-500">Track an exact serial code.</p></div>
+            <form wire:submit="searchSerial" class="flex w-full flex-nowrap items-start gap-2 lg:ml-auto lg:max-w-2xl">
+                <div class="relative min-w-0 flex-1"><i data-lucide="search" class="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-400"></i><input wire:model="serialSearch" class="input pl-9" placeholder="Enter serial code" autocomplete="off">@error('serialSearch')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror</div>
+                <button class="btn-primary shrink-0 whitespace-nowrap"><i data-lucide="arrow-right" class="mr-2 size-4"></i><span class="hidden sm:inline">View history</span><span class="sm:hidden">Search</span></button>
+            </form>
+        </section>
+
+        <section>
+            <h2 class="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-500">Quick actions</h2>
+            <div class="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-5">
+                <a wire:navigate href="{{ route('pos') }}" class="card flex items-center gap-2.5 p-3 transition hover:border-brand-500 hover:shadow-md"><span class="grid size-8 shrink-0 place-items-center rounded-lg bg-brand-50 text-brand-700"><i data-lucide="shopping-cart" class="size-4"></i></span><b class="text-xs sm:text-sm">New sale</b></a>
+                <a wire:navigate href="{{ route('inventory.section', ['section'=>'actions', 'action'=>'stock_intake']) }}" class="card flex items-center gap-2.5 p-3 transition hover:border-brand-500 hover:shadow-md"><span class="grid size-8 shrink-0 place-items-center rounded-lg bg-brand-50 text-brand-700"><i data-lucide="arrow-down-to-line" class="size-4"></i></span><b class="text-xs sm:text-sm">Stock intake</b></a>
+                <a wire:navigate href="{{ route('inventory.section', ['section'=>'actions', 'action'=>'reseller_takeout']) }}" class="card flex items-center gap-2.5 p-3 transition hover:border-brand-500 hover:shadow-md"><span class="grid size-8 shrink-0 place-items-center rounded-lg bg-brand-50 text-brand-700"><i data-lucide="send" class="size-4"></i></span><b class="text-xs sm:text-sm">Reseller take-out</b></a>
+                <a wire:navigate href="{{ route('inventory.section', ['section'=>'actions', 'action'=>'wholesaler_return']) }}" class="card flex items-center gap-2.5 p-3 transition hover:border-brand-500 hover:shadow-md"><span class="grid size-8 shrink-0 place-items-center rounded-lg bg-brand-50 text-brand-700"><i data-lucide="undo-2" class="size-4"></i></span><b class="text-xs sm:text-sm">Supplier return</b></a>
+                <a wire:navigate href="{{ route('orders') }}" class="card flex items-center gap-2.5 p-3 transition hover:border-brand-500 hover:shadow-md"><span class="grid size-8 shrink-0 place-items-center rounded-lg bg-brand-50 text-brand-700"><i data-lucide="receipt-text" class="size-4"></i></span><b class="text-xs sm:text-sm">Order list</b></a>
+            </div>
+        </section>
+
+        <section class="card p-5 sm:p-6">
+            <div class="mb-4 flex items-center justify-between gap-3"><div><h2 class="font-bold">Recent notifications</h2><p class="text-xs text-slate-500">Your latest stock and reseller alerts.</p></div><a wire:navigate href="{{ route('notifications') }}" class="shrink-0 text-sm font-semibold text-brand-700 hover:underline">View all</a></div>
+            <div class="divide-y">
+                @forelse($recentNotifications as $notification)
+                    <a wire:navigate href="{{ route('notifications') }}" class="flex items-center gap-3 py-3 first:pt-0 last:pb-0"><span class="grid size-9 shrink-0 place-items-center rounded-xl {{ $notification->type === 'low_stock' ? 'bg-red-50 text-red-600' : 'bg-amber-50 text-amber-600' }}"><i data-lucide="{{ $notification->type === 'low_stock' ? 'package' : 'send' }}" class="size-4"></i></span><span class="min-w-0 flex-1"><b class="block truncate text-sm">{{ $notification->title }}</b><small class="block truncate text-slate-500">{{ $notification->message }}</small></span><time class="hidden shrink-0 text-xs text-slate-400 sm:block">{{ $notification->occurred_at->diffForHumans() }}</time></a>
+                @empty
+                    <div class="py-8 text-center"><i data-lucide="check" class="mx-auto size-7 text-brand-600"></i><p class="mt-2 text-sm text-slate-500">No unread notifications.</p></div>
+                @endforelse
+            </div>
+        </section>
+    @else
+        <div class="flex items-end justify-between"><div><h1 class="text-3xl font-bold text-ink">Dashboard</h1><p class="text-sm text-slate-500">Snapshot of today's trading.</p></div><a wire:navigate href="{{ route('pos') }}" class="btn-primary gap-2"><i data-lucide="plus" class="size-4"></i>New sale</a></div>
+        <section><div class="mb-3 flex items-center justify-between"><h2 class="text-xs font-semibold uppercase tracking-wider text-slate-500">Finance actions</h2><a wire:navigate href="{{ route('finance') }}" class="text-xs font-semibold text-brand-700 hover:underline">Open finance</a></div><div class="grid gap-2 sm:grid-cols-3"><a wire:navigate href="{{ route('finance',['action'=>'status']) }}" class="card flex items-center gap-2.5 p-3 transition hover:border-brand-500"><span class="grid size-8 place-items-center rounded-lg bg-brand-50 text-brand-700"><i data-lucide="scan-search" class="size-4"></i></span><b class="text-sm">Payment status check</b></a><a wire:navigate href="{{ route('finance',['action'=>'price']) }}" class="card flex items-center gap-2.5 p-3 transition hover:border-brand-500"><span class="grid size-8 place-items-center rounded-lg bg-brand-50 text-brand-700"><i data-lucide="badge-dollar-sign" class="size-4"></i></span><b class="text-sm">Set buying price</b></a><a wire:navigate href="{{ route('finance',['action'=>'payment']) }}" class="card flex items-center gap-2.5 p-3 transition hover:border-brand-500"><span class="grid size-8 place-items-center rounded-lg bg-brand-50 text-brand-700"><i data-lucide="hand-coins" class="size-4"></i></span><b class="text-sm">Make payment</b></a></div></section>
+        <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">@foreach([["Today's sales",$todaySales],["Today's orders",$todayOrders],["30-day revenue",$monthSales],["Products",$productCount]] as [$label,$value])<article class="card p-5"><p class="text-xs font-semibold uppercase tracking-wider text-slate-500">{{ $label }}</p><p class="mt-2 text-2xl font-bold text-ink">{{ str_contains($label,'orders')||$label==='Products' ? $value : 'KES '.number_format($value,2) }}</p></article>@endforeach</div>
+        <div class="grid gap-4 lg:grid-cols-3"><section class="card p-5 lg:col-span-2"><h2 class="font-bold">Sales · last 30 days</h2><div class="mt-5 flex h-52 items-end gap-1">@php($max=max(1,(float)$daily->max()))@foreach(range(29,0) as $offset)@php($day=now()->subDays($offset)->toDateString())<div title="{{ $day }}: KES {{ number_format($daily[$day]??0) }}" class="min-h-1 flex-1 rounded-t bg-brand-500/70" style="height:{{ max(2, (($daily[$day]??0)/$max)*100) }}%"></div>@endforeach</div></section><section class="card p-5"><h2 class="font-bold">Top products</h2><div class="mt-4 space-y-3">@forelse($topProducts as $p)<div class="flex justify-between text-sm"><span class="truncate">{{ $p->name_snapshot }}</span><b>{{ $p->quantity }}</b></div>@empty<p class="text-sm text-slate-500">No sales yet.</p>@endforelse</div></section></div>
+        <section class="card p-5"><h2 class="font-bold">Low stock</h2><div class="mt-3 divide-y">@forelse($lowStock as $p)<div class="flex justify-between py-2 text-sm"><b>{{ $p->name }}</b><span class="text-red-600">{{ $p->stock }} left</span></div>@empty<p class="text-sm text-slate-500">All products are above their threshold.</p>@endforelse</div></section>
+    @endif
+</div>
