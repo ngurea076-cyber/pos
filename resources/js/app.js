@@ -1,14 +1,14 @@
 import axios from 'axios';
 import {
     createIcons, ArrowDownToLine, ArrowLeft, ArrowRight, BadgeDollarSign, Bell, ChartNoAxesCombined, Check, ChevronDown, ClipboardList,
-    Eye, HandCoins, Landmark, LayoutDashboard, ListFilter, LogOut, Menu, Package, PackageCheck, PackagePlus, Pencil, Plus,
+    Eye, FileText, HandCoins, Landmark, LayoutDashboard, ListFilter, LogOut, Menu, Package, PackageCheck, PackagePlus, Pencil, Plus,
     Receipt, ReceiptText, RotateCcw, Save, ScanSearch, Search, Send, ShoppingCart, Store, Trash2, Truck,
     TrendingUp, Undo2, UsersRound, WalletCards, Warehouse, X,
 } from 'lucide';
 window.axios = axios;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-const icons = {ArrowDownToLine,ArrowLeft,ArrowRight,BadgeDollarSign,Bell,ChartNoAxesCombined,Check,ChevronDown,ClipboardList,Eye,HandCoins,Landmark,LayoutDashboard,ListFilter,LogOut,Menu,Package,PackageCheck,PackagePlus,Pencil,Plus,Receipt,ReceiptText,RotateCcw,Save,ScanSearch,Search,Send,ShoppingCart,Store,Trash2,TrendingUp,Truck,Undo2,UsersRound,WalletCards,Warehouse,X};
+const icons = {ArrowDownToLine,ArrowLeft,ArrowRight,BadgeDollarSign,Bell,ChartNoAxesCombined,Check,ChevronDown,ClipboardList,Eye,FileText,HandCoins,Landmark,LayoutDashboard,ListFilter,LogOut,Menu,Package,PackageCheck,PackagePlus,Pencil,Plus,Receipt,ReceiptText,RotateCcw,Save,ScanSearch,Search,Send,ShoppingCart,Store,Trash2,TrendingUp,Truck,Undo2,UsersRound,WalletCards,Warehouse,X};
 const renderIcons = () => createIcons({icons, attrs: {'stroke-width': 2}});
 
 document.addEventListener('DOMContentLoaded', renderIcons);

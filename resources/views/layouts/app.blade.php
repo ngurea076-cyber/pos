@@ -4,7 +4,7 @@
  <aside :class="open?'translate-x-0':'-translate-x-full'" class="fixed inset-y-0 left-0 z-40 flex w-64 flex-col bg-ink text-white transition lg:static lg:translate-x-0">
   <div class="flex h-17 items-center gap-3 border-b border-white/10 px-5"><div class="grid size-11 place-items-center overflow-hidden rounded-xl bg-white p-1"><img src="{{ asset('logo.png') }}" alt="ShopICT logo" class="size-full object-contain"></div><div><div class="font-bold">ShopICT</div><div class="text-[10px] uppercase tracking-[.2em] text-slate-400">Retail manager</div></div><button @click="open=false" class="ml-auto lg:hidden"><i data-lucide="x" class="size-5"></i></button></div>
   <nav class="flex-1 space-y-1 overflow-y-auto p-3">
-   @foreach([['dashboard','Dashboard','layout-dashboard'],['notifications','Notifications','bell'],['pos','New Sale','shopping-cart'],['orders','Orders','receipt-text'],['expenses','Expenses','wallet-cards']] as [$route,$label,$icon])
+   @foreach([['dashboard','Dashboard','layout-dashboard'],['notifications','Notifications','bell'],['pos','New Sale','shopping-cart'],['quotations','Quotations','file-text'],['orders','Orders','receipt-text'],['expenses','Expenses','wallet-cards']] as [$route,$label,$icon])
     <a wire:navigate href="{{ route($route) }}" class="nav-link {{ request()->routeIs($route) ? 'nav-active':'' }}"><i data-lucide="{{ $icon }}" class="size-4 shrink-0"></i>{{ $label }}@if($route==='notifications')<span x-cloak x-show="notificationCount>0" class="ml-auto size-2.5 rounded-full bg-red-500 ring-2 ring-red-500/20"></span>@endif</a>
    @endforeach
 

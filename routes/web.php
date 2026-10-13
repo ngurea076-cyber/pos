@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\NotificationFeedController;
+use App\Http\Controllers\QuotationDocumentController;
 use App\Livewire\Dashboard;
 use App\Livewire\Expenses;
 use App\Livewire\Notifications;
@@ -10,6 +11,7 @@ use App\Livewire\Inventory;
 use App\Livewire\Orders;
 use App\Livewire\PointOfSale;
 use App\Livewire\Products;
+use App\Livewire\Quotations;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/dashboard');
@@ -24,6 +26,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/pos', PointOfSale::class)->name('pos');
     Route::get('/orders/{order?}', Orders::class)->name('orders');
     Route::get('/orders/{order}/receipt.pdf', [ReceiptController::class, 'download'])->name('orders.receipt');
+    Route::get('/quotations/{quotation}/document', [QuotationDocumentController::class, 'show'])->name('quotations.pdf');
+    Route::get('/quotations', Quotations::class)->name('quotations');
     Route::get('/expenses', Expenses::class)->name('expenses');
     Route::get('/notifications', Notifications::class)->name('notifications');
     Route::get('/notifications/feed', NotificationFeedController::class)->name('notifications.feed');

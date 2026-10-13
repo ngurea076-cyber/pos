@@ -6,37 +6,37 @@
     <style>
         @page { margin: 38px 50px; }
         * { box-sizing: border-box; }
-        body { margin: 0; color: #4b5563; font-family: DejaVu Sans, sans-serif; font-size: 9px; }
+        body { margin: 0; color: #1f2937; font-family: DejaVu Sans, sans-serif; font-size: 10px; }
         .navy { color: #070754; }
         .red { color: #e30613; }
         .top { height: 78px; position: relative; }
-        .title { color: #e30613; font-size: 35px; font-weight: 300; letter-spacing: 6px; line-height: 1; padding-top: 16px; }
+        .title { color: #c9000c; font-size: 36px; font-weight: 500; letter-spacing: 6px; line-height: 1; padding-top: 16px; }
         .logo { position: absolute; right: 0; top: 3px; height: 58px; width: 78px; text-align: center; }
         .logo img { max-height: 58px; max-width: 78px; }
         .logo-text { color: #070754; font-size: 12px; font-weight: bold; padding-top: 20px; }
-        .order-strip { background: #070754; color: white; font-size: 7px; font-weight: bold; letter-spacing: .5px; padding: 5px 8px; }
+        .order-strip { background: #070754; color: white; font-size: 9px; font-weight: bold; letter-spacing: .5px; padding: 6px 8px; }
         .order-strip .right { float: right; }
         .info { margin-top: 25px; width: 100%; }
         .info td { padding-right: 20px; vertical-align: top; width: 33.33%; }
         .info td:last-child { padding-right: 0; }
-        .section-title { color: #27272a; font-size: 11px; font-weight: bold; letter-spacing: .4px; margin-bottom: 8px; }
+        .section-title { color: #111827; font-size: 12px; font-weight: bold; letter-spacing: .4px; margin-bottom: 8px; }
         .line { line-height: 1.65; }
         .items { border-collapse: collapse; margin-top: 45px; width: 100%; }
-        .items th { background: #070754; color: white; font-size: 7px; letter-spacing: 1px; padding: 8px 7px; text-align: left; text-transform: uppercase; }
+        .items th { background: #070754; color: white; font-size: 9px; letter-spacing: .7px; padding: 9px 7px; text-align: left; text-transform: uppercase; }
         .items th.center, .items td.center { text-align: center; }
         .items th.money, .items td.money { text-align: right; }
-        .items td { border-bottom: 1px solid #eef0f3; padding: 11px 7px; vertical-align: top; }
-        .item-name { color: #4b5563; line-height: 1.5; }
+        .items td { border-bottom: 1px solid #e1e5eb; padding: 11px 7px; vertical-align: top; }
+        .item-name { color: #111827; font-size: 12px; line-height: 1.6; }
         .bottom { border-top: 1px solid #eef0f3; margin-top: 145px; padding-top: 20px; width: 100%; }
         .bottom td { vertical-align: top; }
-        .terms { font-size: 7px; line-height: 1.7; padding-right: 40px; width: 62%; }
-        .terms-title { color: #27272a; font-size: 8px; font-weight: bold; letter-spacing: .5px; margin-bottom: 5px; }
+        .terms { color: #1f2937; font-size: 9px; line-height: 1.7; padding-right: 40px; width: 62%; }
+        .terms-title { color: #111827; font-size: 9px; font-weight: bold; letter-spacing: .5px; margin-bottom: 5px; }
         .totals { border-collapse: collapse; width: 100%; }
-        .totals td { padding: 3px 7px; text-align: right; }
+        .totals td { color: #1f2937; font-size: 10px; padding: 4px 7px; text-align: right; }
         .totals td:first-child { letter-spacing: .5px; text-transform: uppercase; }
-        .total-row td { background: #ffe0e3; color: #e30613; font-size: 10px; font-weight: bold; padding-bottom: 7px; padding-top: 7px; }
-        .dealer { color: #4b5563; font-size: 8px; line-height: 1.6; margin-top: 58px; text-align: center; }
-        .thanks { color: #e30613; font-size: 23px; font-weight: 300; letter-spacing: 5px; margin-top: 18px; text-align: center; }
+        .total-row td { background: #ffe0e3; color: #c9000c; font-size: 12px; font-weight: bold; padding-bottom: 7px; padding-top: 7px; }
+        .dealer { color: #1f2937; font-size: 9px; line-height: 1.6; margin-top: 58px; text-align: center; }
+        .thanks { color: #c9000c; font-size: 24px; font-weight: 500; letter-spacing: 5px; margin-top: 18px; text-align: center; }
     </style>
 </head>
 <body>

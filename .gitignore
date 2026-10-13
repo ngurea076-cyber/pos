@@ -14,6 +14,7 @@ lerna-debug.log*
 /storage/*.key
 /.env
 /.env.backup
+/database/ui-preview.sqlite
 /.phpunit.cache
 auth.json
 npm-debug.log
