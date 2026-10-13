@@ -73,7 +73,7 @@
             </td>
             <td>
                 <div class="section-title">PAYMENT METHOD</div>
-                <div class="line">{{ strtoupper($order->payment_method) }}</div>
+                <div class="line">{{ $order->payment_method === 'family_bank' ? 'Family Bank' : ($order->payment_method === 'stanbic_bank' ? 'Stanbic Bank' : ($order->payment_method === 'i_and_m' ? 'I&M' : ($order->payment_method === 'cash' ? 'Cash' : ($order->payment_method === 'mixed' ? 'Mixed' : $order->payment_method)))) }}</div>
             </td>
         </tr>
     </table>

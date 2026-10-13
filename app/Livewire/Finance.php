@@ -79,7 +79,7 @@ class Finance extends Component
         ]);
 
         $serials = ProductSerial::withSum(['paymentAllocations as valid_payment_allocations_sum_amount'=>fn($query)=>$query->whereHas('payment',fn($payment)=>$payment->where('is_invalid',false))], 'amount')
-            ->whereIn('id', $data['serialIds'])->where('supplier_id', $data['supplierId'])->where('product_id', $data['productId'])->get();
+            ->whereIn('id', $data['serialIds'])->where('supplier_id', $data['supplierId'])->where('product_id', $data['productId'])->where('status', '!=', 'returned_to_supplier')->get();
         abort_unless($serials->count() === count(array_unique($data['serialIds'])), 422, 'One or more selected serials do not match the supplier and product.');
         if ($serials->contains(fn ($serial)=>(float)$serial->valid_payment_allocations_sum_amount > (float)$data['buyingPrice'])) {
             $this->addError('buyingPrice', 'The buying price cannot be lower than payments already recorded for a selected serial.');
@@ -114,6 +114,7 @@ class Finance extends Component
 
         $serials = ProductSerial::with(['purchaseTerm', 'paymentAllocations'])
             ->whereIn('id', $data['serialIds'])->where('product_id', $data['productId'])
+            ->where('status', '!=', 'returned_to_supplier')
             ->whereHas('purchaseTerm', fn ($query)=>$query->where('supplier_id', $data['supplierId']))
             ->orderBy('id')->get();
         abort_unless($serials->count() === count(array_unique($data['serialIds'])), 422, 'One or more selected serials do not have buying prices for this supplier.');
@@ -145,7 +146,7 @@ class Finance extends Component
     private function serialOptions(): Collection
     {
         if (! $this->supplierId || ! $this->productId) return collect();
-        $query = ProductSerial::with('purchaseTerm')->withSum(['paymentAllocations as valid_payment_allocations_sum_amount'=>fn($query)=>$query->whereHas('payment',fn($payment)=>$payment->where('is_invalid',false))], 'amount')->where('product_id', $this->productId);
+        $query = ProductSerial::with('purchaseTerm')->withSum(['paymentAllocations as valid_payment_allocations_sum_amount'=>fn($query)=>$query->whereHas('payment',fn($payment)=>$payment->where('is_invalid',false))], 'amount')->where('product_id', $this->productId)->where('status', '!=', 'returned_to_supplier');
         if ($this->action === 'payment') {
             return $query->whereHas('purchaseTerm', fn ($q)=>$q->where('supplier_id', $this->supplierId))->orderBy('serial')->get()
                 ->filter(fn ($serial)=>(float)$serial->valid_payment_allocations_sum_amount + 0.001 < (float)$serial->purchaseTerm->buying_price)->values();
@@ -157,6 +158,7 @@ class Finance extends Component
     {
         if (! $this->supplierId) return collect();
         return Product::whereHas('serials', function ($query) {
+            $query->where('status', '!=', 'returned_to_supplier');
             if ($this->action === 'payment') $query->whereHas('purchaseTerm', fn ($q)=>$q->where('supplier_id', $this->supplierId));
             else $query->where('supplier_id', $this->supplierId);
         })->orderBy('name')->get();

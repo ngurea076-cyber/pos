@@ -24,6 +24,11 @@ class PointOfSale extends Component
     public int $warrantyMonths = 0;
     public string $price = '';
     public string $paymentMethod = 'cash';
+    public bool $mixedPaymentOpen = false;
+    public string $mixedPaymentMethodOne = 'cash';
+    public string $mixedPaymentMethodTwo = 'family_bank';
+    public string $mixedPaymentAmountOne = '';
+    public string $mixedPaymentAmountTwo = '';
     public string $notes = '';
     public float $discount = 0;
     public array $cart = [];
@@ -172,8 +177,31 @@ class PointOfSale extends Component
         abort_if(empty($this->cart), 422, 'Add at least one product to continue.');
         $this->validate([
             'discount' => ['numeric', 'min:0', 'max:'.$this->subtotal()],
-            'paymentMethod' => ['required', Rule::in(['cash', 'mpesa', 'card', 'bank'])],
+            'paymentMethod' => ['required', Rule::in(['family_bank', 'stanbic_bank', 'i_and_m', 'cash', 'mixed'])],
         ]);
+        if ($this->paymentMethod === 'mixed') {
+            $this->mixedPaymentOpen = true;
+            $this->mixedPaymentAmountOne = $this->mixedPaymentAmountOne ?: (string) round(($this->subtotal() - (float) $this->discount) / 2, 2);
+            $this->mixedPaymentAmountTwo = $this->mixedPaymentAmountTwo ?: number_format(($this->subtotal() - (float) $this->discount) - (float) $this->mixedPaymentAmountOne, 2, '.', '');
+            return;
+        }
+        $this->step = 3;
+    }
+
+    public function confirmMixedPayment(): void
+    {
+        $total = max(0, $this->subtotal() - (float) $this->discount);
+        $this->validate([
+            'mixedPaymentMethodOne' => ['required', Rule::in(['family_bank', 'stanbic_bank', 'i_and_m', 'cash'])],
+            'mixedPaymentMethodTwo' => ['required', Rule::in(['family_bank', 'stanbic_bank', 'i_and_m', 'cash']), 'different:mixedPaymentMethodOne'],
+            'mixedPaymentAmountOne' => ['required', 'numeric', 'gt:0'],
+            'mixedPaymentAmountTwo' => ['required', 'numeric', 'gt:0'],
+        ]);
+        if (round((float) $this->mixedPaymentAmountOne + (float) $this->mixedPaymentAmountTwo, 2) !== round($total, 2)) {
+            $this->addError('mixedPaymentAmountTwo', 'The two amounts must add up to the sale total (KES '.number_format($total, 2).').');
+            return;
+        }
+        $this->mixedPaymentOpen = false;
         $this->step = 3;
     }
 
@@ -200,7 +228,9 @@ class PointOfSale extends Component
                 'subtotal' => $subtotal,
                 'discount' => $this->discount,
                 'total' => max(0, $subtotal - $this->discount),
-                'payment_method' => $this->paymentMethod,
+                'payment_method' => $this->paymentMethod === 'mixed'
+                    ? 'Mixed: '.ucwords(str_replace('_', ' ', $this->mixedPaymentMethodOne)).' KES '.number_format((float) $this->mixedPaymentAmountOne, 2).' + '.ucwords(str_replace('_', ' ', $this->mixedPaymentMethodTwo)).' KES '.number_format((float) $this->mixedPaymentAmountTwo, 2)
+                    : $this->paymentMethod,
                 'notes' => $this->notes ?: null,
                 'attendant_id' => auth()->id(),
             ]);

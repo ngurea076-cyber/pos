@@ -113,6 +113,7 @@ class Reports extends Component
             ->leftJoin('supplier_payment_allocations','supplier_payment_allocations.product_serial_id','=','product_serials.id')
             ->leftJoin('supplier_payments','supplier_payments.id','=','supplier_payment_allocations.supplier_payment_id')
             ->where('serial_purchase_terms.supplier_id',$this->supplierId)
+            ->where('product_serials.status','!=','returned_to_supplier')
             ->when($this->productIds,fn($q)=>$q->whereIn('product_serials.product_id',$this->productIds))
             ->when($this->inventoryState,fn($q)=>$q->where('product_serials.status',$this->inventoryState))
             ->when($start,fn($q)=>$q->whereBetween('product_serials.created_at',[$start,$end]))

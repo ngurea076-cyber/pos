@@ -47,7 +47,7 @@ class Orders extends Component
         $data=$this->validate([
             'customerName'=>['required','string','max:255'], 'customerPhone'=>['nullable','string','max:30'],
             'customerSource'=>['required',Rule::in(['walkin','instagram','tiktok','returning','reseller'])],
-            'paymentMethod'=>['required',Rule::in(['cash','mpesa','card','bank'])], 'notes'=>['nullable','string','max:2000'],
+            'paymentMethod'=>['required',Rule::in(['family_bank','stanbic_bank','i_and_m','cash','mixed'])], 'notes'=>['nullable','string','max:2000'],
             'discount'=>['required','numeric','min:0'], 'correctionReason'=>['required','string','max:500'],
             'editItems'=>['required','array'], 'editItems.*.unit_price'=>['required','numeric','min:0.01'], 'editItems.*.warranty_months'=>['required','integer','min:0','max:120'],
         ]);
