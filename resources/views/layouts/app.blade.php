@@ -24,6 +24,7 @@
     <div class="px-3 pb-1 pt-4 text-[10px] font-semibold uppercase tracking-[.18em] text-slate-500">Admin</div>
     <a wire:navigate href="{{ route('finance') }}" class="nav-link {{ request()->routeIs('finance*') ? 'nav-active':'' }}"><i data-lucide="landmark" class="size-4 shrink-0"></i>Finance</a>
     <a wire:navigate href="{{ route('reports') }}" class="nav-link {{ request()->routeIs('reports') ? 'nav-active':'' }}"><i data-lucide="chart-no-axes-combined" class="size-4 shrink-0"></i>Reports</a>
+    <a wire:navigate href="{{ route('bills') }}" class="nav-link {{ request()->routeIs('bills') ? 'nav-active':'' }}"><i data-lucide="receipt" class="size-4 shrink-0"></i>Bills</a>
     @foreach([['suppliers','Suppliers','truck'],['resellers','Resellers','users-round']] as [$route,$label,$icon])<a wire:navigate href="{{ route($route) }}" class="nav-link {{ request()->routeIs($route) ? 'nav-active':'' }}"><i data-lucide="{{ $icon }}" class="size-4 shrink-0"></i>{{ $label }}</a>@endforeach
    @endif
   </nav>

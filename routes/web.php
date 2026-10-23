@@ -6,6 +6,7 @@ use App\Http\Controllers\NotificationFeedController;
 use App\Http\Controllers\QuotationDocumentController;
 use App\Livewire\Dashboard;
 use App\Livewire\Expenses;
+use App\Livewire\Bills;
 use App\Livewire\Notifications;
 use App\Livewire\Inventory;
 use App\Livewire\Orders;
@@ -39,6 +40,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/finance', \App\Livewire\Finance::class)->name('finance');
         Route::get('/finance/status/{serial}', \App\Livewire\FinanceSerialStatus::class)->name('finance.status');
         Route::get('/reports', \App\Livewire\Reports::class)->name('reports');
+        Route::get('/bills', Bills::class)->name('bills');
         Route::get('/suppliers', \App\Livewire\Suppliers::class)->name('suppliers');
         Route::get('/resellers', \App\Livewire\Resellers::class)->name('resellers');
     });
